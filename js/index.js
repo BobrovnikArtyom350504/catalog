@@ -1,15 +1,23 @@
 'use strict';
 
+import Cart from './cart.js';
 import Catalog from './catalog.js';
 import CatalogController from './catalogController.js'
-
-let catalog = new Catalog(['test1', 'test2']);
-catalog.addProducts({products: 
-  [ {id: 1, test1: 'aa', test2: 'dasdas'},
-    {id: 2, test1: 'asd', test2: 'aaa'},
-    {id: 3, test1: 'csasa', test2: 'zaza'},
-    {id: 4, test1: 'zaza', test2: 'dsa'},
-    {id: 5, test1: 'sarta', test2: 'dasdas'}]});
-let catalogController = new CatalogController(catalog);
-console.log(catalogController.sortProducts('test1', 'desc'));
-console.log(catalogController.filterProducts('test2', 'da'));
+import data from './data.js';
+import FilterController from './filterController.js';
+document.addEventListener('DOMContentLoaded', () => {
+  let catalog = new Catalog(['id', 'title', 'about', 'price'])
+  let catalogController = new CatalogController(catalog);
+  catalogController.catalog.addProducts(data);
+  catalogController.showCatalog();
+  let filterController = new FilterController(catalogController.catalog.productFields);
+  filterController.showFilter();
+  filterController.setOnInputListener((type, filter) => {
+    catalogController.filterProducts(type,filter);
+    catalogController.updateView();
+  });
+  filterController.setOnTypeChangeListener((type, filter) => {
+    catalogController.filterProducts(type,filter);
+    catalogController.updateView();
+  });
+}, false);

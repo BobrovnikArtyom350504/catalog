@@ -2,10 +2,9 @@
 
 export default class Catalog {
 
-  constructor(columnNames) {
+  constructor(productFields) {
     this.products = [];
-    this.columnNames = Array.isArray(columnNames) ? columnNames : [];
-    this.columnNames.splice(0, 0, 'id');
+    this.productFields = Array.isArray(productFields) ? productFields : [];
   }
 
   addProducts(data) {
@@ -32,8 +31,8 @@ export default class Catalog {
     if(!product)
       return false;
 
-    for(let i in this.columnNames) {
-      if(!product.hasOwnProperty(this.columnNames[i]))
+    for(let i in this.productFields) {
+      if(!product.hasOwnProperty(this.productFields[i]))
         return false;
     }
     return true;
